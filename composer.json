@@ -1,5 +1,5 @@
 {
-  "name": "tvce-client",
+  "name": "tvce/client",
   "description": "Client para integração com API da Total Voice",
   "type": "library",
   "authors": [
