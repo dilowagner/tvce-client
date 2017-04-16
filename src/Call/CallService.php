@@ -1,13 +1,25 @@
 <?php
 namespace Tvce\Call;
 
+use Tvce\Path;
 use Tvce\SocketClientInterface;
 
-class Service
+class CallService
 {
-    const PATH = '/chamada/';
+    /**
+     * @var string
+     */
+    const ROUTE = '/chamada/';
+
+    /**
+     * @var SocketClientInterface
+     */
     private $client;
 
+    /**
+     * Service constructor.
+     * @param SocketClientInterface $client
+     */
     public function __construct(SocketClientInterface $client)
     {
         $this->client = $client;
@@ -32,7 +44,8 @@ class Service
             'bina_destino'   => $destinyBina,
             'tags'           => $tags
         ];
-        return $this->client->post(self::PATH, $data);
+        $path = new Path([self::ROUTE]);
+        return $this->client->post($path->build(), $data);
     }
 
     /**
@@ -41,7 +54,8 @@ class Service
      */
     public function finish($id)
     {
-        return $this->client->delete(self::PATH . $id);
+        $path = new Path([self::ROUTE, $id]);
+        return $this->client->delete($path->build());
     }
 
     /**
@@ -50,7 +64,8 @@ class Service
      */
     public function getCallById($id)
     {
-        return $this->client->get(self::PATH . $id);
+        $path = new Path([self::ROUTE, $id]);
+        return $this->client->get($path->build());
     }
 
     /**
@@ -59,8 +74,8 @@ class Service
      */
     public function record($id)
     {
-        $path = sprintf('%s%s%s', self::PATH, $id, '/gravacao');
-        return $this->client->get($path);
+        $path = new Path([self::ROUTE, $id, '/gravacao']);
+        return $this->client->get($path->build());
     }
 
     /**
@@ -75,8 +90,8 @@ class Service
             'data_fim' => $endDate->format('d/m/Y')
         ];
 
-        $path = sprintf('%s%s', self::PATH, 'relatorio');
-        return $this->client->get($path, $params);
+        $path = new Path([self::ROUTE, 'relatorio']);
+        return $this->client->get($path->build(), $params);
     }
 
     /**
@@ -89,8 +104,8 @@ class Service
             'numero' => $number,
             'modo' => $mode
         ];
-        $path = sprintf('%s%s%s', self::PATH, $id, '/escuta');
-        return $this->client->get($path, $params);
+        $path = new Path([self::ROUTE, $id, '/escuta']);
+        return $this->client->get($path->build(), $params);
     }
 
     /**
@@ -105,6 +120,7 @@ class Service
             'numero' => $number,
             'perna' => $leg
         ];
-        return $this->client->post(self::PATH . $id, $data);
+        $path = new Path([self::ROUTE, $id]);
+        return $this->client->post($path->build(), $data);
     }
 }

@@ -19,11 +19,6 @@ class SocketClient implements SocketClientInterface
     private $host;
 
     /**
-     * @var string
-     */
-    const HTTP_HEADERS_SEPARATOR = "\r\n";
-
-    /**
      * SocketClient constructor.
      * @param $accessToken
      * @param $host
@@ -57,7 +52,7 @@ class SocketClient implements SocketClientInterface
     public function get($path, $params = [])
     {
         $query = $this->query($params);
-        $message  = sprintf("GET %s%s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path, $query);
+        $message = $this->request(Http::GET, $path, $query);
         $this->defaultHeaders($message);
 
         $this->write($message);
@@ -72,7 +67,7 @@ class SocketClient implements SocketClientInterface
      */
     public function post($path, $data)
     {
-        $message = sprintf("POST %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
+        $message = $this->request(Http::POST, $path);
         $this->defaultHeaders($message);
         $message .= $this->serialize($data);
 
@@ -88,7 +83,7 @@ class SocketClient implements SocketClientInterface
      */
     public function put($path, $data)
     {
-        $message = sprintf("PUT %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
+        $message = $this->request(Http::PUT, $path);
         $this->defaultHeaders($message);
         $message .= $this->serialize($data);
 
@@ -104,11 +99,29 @@ class SocketClient implements SocketClientInterface
      */
     public function delete($path)
     {
-        $message = sprintf("DELETE %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
+        $message = $this->request(Http::DELETE, $path);
         $this->defaultHeaders($message);
 
         $this->write($message);
         return $this->read();
+    }
+
+    /**
+     * @param string $verb
+     * @param string $path
+     * @param string|null $query
+     * @return string
+     */
+    private function request($verb, $path, $query = null)
+    {
+        return sprintf(
+            "%s %s%s %s%s",
+            $verb,
+            $path,
+            $query,
+            Http::VERSION,
+            Http::HTTP_HEADERS_SEPARATOR
+        );
     }
 
     /**
@@ -142,9 +155,9 @@ class SocketClient implements SocketClientInterface
      */
     private function defaultHeaders(&$message)
     {
-        $message .= sprintf("Host: %s" . self::HTTP_HEADERS_SEPARATOR, $this->host);
-        $message .= "Content-type: application/json" . self::HTTP_HEADERS_SEPARATOR;
-        $message .= sprintf("Access-Token: %s" . self::HTTP_HEADERS_SEPARATOR . self::HTTP_HEADERS_SEPARATOR, $this->accessToken);
+        $message .= sprintf("Host: %s" . Http::HTTP_HEADERS_SEPARATOR, $this->host);
+        $message .= "Content-type: application/json" . Http::HTTP_HEADERS_SEPARATOR;
+        $message .= sprintf("Access-Token: %s" . Http::HTTP_HEADERS_SEPARATOR . Http::HTTP_HEADERS_SEPARATOR, $this->accessToken);
     }
 
     /**
@@ -184,7 +197,7 @@ class SocketClient implements SocketClientInterface
      */
     private function stringfy($data)
     {
-        $pattern = sprintf('/%s%s/', self::HTTP_HEADERS_SEPARATOR, self::HTTP_HEADERS_SEPARATOR);
+        $pattern = sprintf('/%s%s/', Http::HTTP_HEADERS_SEPARATOR, Http::HTTP_HEADERS_SEPARATOR);
         if (preg_match($pattern, $data)) {
             $values = preg_split($pattern, $data);
             if(isset($values[1])) {

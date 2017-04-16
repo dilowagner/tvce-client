@@ -5,8 +5,8 @@
          beStrictAboutTestsThatDoNotTestAnything="true"
          backupStaticAttributes="false" verbose="true" strict="true">
     <testsuites>
-        <testsuite name="Mercado livre client Test Suite">
-            <directory>./tests</directory>
+        <testsuite name="Tvce client Test Suite">
+            <directory>./test</directory>
         </testsuite>
     </testsuites>
 
