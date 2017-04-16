@@ -9,7 +9,7 @@ class TTSService
     /**
      * @var string
      */
-    const ROUTE = '/tts/';
+    const TTS_ROUTE = '/tts/';
 
     /**
      * @var SocketClientInterface
@@ -40,7 +40,7 @@ class TTSService
             'resposta_usuario' => $isUserResponse,
             'bina' => $bina
         ];
-        $path = new Path([self::ROUTE]);
+        $path = new Path([self::TTS_ROUTE]);
         return $this->client->post($path->build(), $data);
     }
 
@@ -50,7 +50,7 @@ class TTSService
      */
     public function getTTS($id)
     {
-        $path = new Path([self::ROUTE, $id]);
+        $path = new Path([self::TTS_ROUTE, $id]);
         return $this->client->get($path->build());
     }
 
@@ -66,7 +66,7 @@ class TTSService
             'data_fim' => $endDate->format('d/m/Y')
         ];
 
-        $path = new Path([self::ROUTE, 'relatorio']);
+        $path = new Path([self::TTS_ROUTE, 'relatorio']);
         return $this->client->get($path->build(), $params);
     }
 }
