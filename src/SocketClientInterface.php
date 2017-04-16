@@ -6,27 +6,27 @@ interface SocketClientInterface
     /**
      * @param $path
      * @param array $params
-     * @return mixed
+     * @return string
      */
     public function get($path, $params = []);
 
     /**
      * @param $path
      * @param $data
-     * @return mixed
+     * @return string
      */
     public function post($path, $data);
 
     /**
      * @param $path
      * @param $data
-     * @return mixed
+     * @return string
      */
     public function put($path, $data);
 
     /**
      * @param $path
-     * @return mixed
+     * @return string
      */
     public function delete($path);
 }

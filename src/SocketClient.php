@@ -44,7 +44,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
-     * @method get
+     * @method GET
      * @param $path
      * @param array $params
      * @return string
@@ -60,7 +60,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
-     * @method get
+     * @method POST
      * @param $path
      * @param array $params
      * @return string
@@ -76,7 +76,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
-     * @method get
+     * @method PUT
      * @param $path
      * @param array $params
      * @return string
@@ -92,9 +92,8 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
-     * @method get
+     * @method DELETE
      * @param $path
-     * @param array $params
      * @return string
      */
     public function delete($path)
