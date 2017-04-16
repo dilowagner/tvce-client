@@ -59,7 +59,7 @@ class Service
      */
     public function record($id)
     {
-        $path = sprintf('%s$s$s', self::PATH, $id, '/gravacao');
+        $path = sprintf('%s%s%s', self::PATH, $id, '/gravacao');
         return $this->client->get($path);
     }
 
@@ -89,7 +89,7 @@ class Service
             'numero' => $number,
             'modo' => $mode
         ];
-        $path = sprintf('%s$s$s', self::PATH, $id, '/escuta');
+        $path = sprintf('%s%s%s', self::PATH, $id, '/escuta');
         return $this->client->get($path, $params);
     }
 
