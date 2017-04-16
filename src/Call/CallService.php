@@ -9,7 +9,7 @@ class CallService
     /**
      * @var string
      */
-    const ROUTE = '/chamada/';
+    const CALL_ROUTE = '/chamada/';
 
     /**
      * @var SocketClientInterface
@@ -44,7 +44,7 @@ class CallService
             'bina_destino'   => $destinyBina,
             'tags'           => $tags
         ];
-        $path = new Path([self::ROUTE]);
+        $path = new Path([self::CALL_ROUTE]);
         return $this->client->post($path->build(), $data);
     }
 
@@ -54,7 +54,7 @@ class CallService
      */
     public function finish($id)
     {
-        $path = new Path([self::ROUTE, $id]);
+        $path = new Path([self::CALL_ROUTE, $id]);
         return $this->client->delete($path->build());
     }
 
@@ -65,7 +65,7 @@ class CallService
      */
     public function getCall($id)
     {
-        $path = new Path([self::ROUTE, $id]);
+        $path = new Path([self::CALL_ROUTE, $id]);
         return $this->client->get($path->build());
     }
     /**
@@ -74,7 +74,7 @@ class CallService
      */
     public function record($id)
     {
-        $path = new Path([self::ROUTE, $id, '/gravacao']);
+        $path = new Path([self::CALL_ROUTE, $id, '/gravacao']);
         return $this->client->get($path->build());
     }
 
@@ -90,7 +90,7 @@ class CallService
             'data_fim' => $endDate->format('d/m/Y')
         ];
 
-        $path = new Path([self::ROUTE, 'relatorio']);
+        $path = new Path([self::CALL_ROUTE, 'relatorio']);
         return $this->client->get($path->build(), $params);
     }
 
@@ -104,7 +104,7 @@ class CallService
             'numero' => $number,
             'modo' => $mode
         ];
-        $path = new Path([self::ROUTE, $id, '/escuta']);
+        $path = new Path([self::CALL_ROUTE, $id, '/escuta']);
         return $this->client->get($path->build(), $params);
     }
 
@@ -120,7 +120,7 @@ class CallService
             'numero' => $number,
             'perna' => $leg
         ];
-        $path = new Path([self::ROUTE, $id]);
+        $path = new Path([self::CALL_ROUTE, $id]);
         return $this->client->post($path->build(), $data);
     }
 }
