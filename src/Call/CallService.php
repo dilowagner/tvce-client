@@ -58,16 +58,16 @@ class CallService
         return $this->client->delete($path->build());
     }
 
+
     /**
      * @param $id
      * @return string
      */
-    public function getCallById($id)
+    public function getCall($id)
     {
         $path = new Path([self::ROUTE, $id]);
         return $this->client->get($path->build());
     }
-
     /**
      * @param $id
      * @return string
