@@ -56,7 +56,8 @@ class SocketClient implements SocketClientInterface
      */
     public function get($path, $params = [])
     {
-        $message  = sprintf("GET %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
+        $query = $this->query($params);
+        $message  = sprintf("GET %s%s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path, $query);
         $this->defaultHeaders($message);
 
         $this->write($message);
@@ -71,18 +72,69 @@ class SocketClient implements SocketClientInterface
      */
     public function post($path, $data)
     {
-        if(! is_array($data)) {
-            throw new \Exception("Form data should be a array.");
-        }
-
-        $data = json_encode($data);
         $message = sprintf("POST %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
-        $message .= "Content-type: application/json" . self::HTTP_HEADERS_SEPARATOR;
         $this->defaultHeaders($message);
-        $message .= $data;
+        $message .= $this->serialize($data);
 
         $this->write($message);
         return $this->read();
+    }
+
+    /**
+     * @method get
+     * @param $path
+     * @param array $params
+     * @return string
+     */
+    public function put($path, $data)
+    {
+        $message = sprintf("PUT %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
+        $this->defaultHeaders($message);
+        $message .= $this->serialize($data);
+
+        $this->write($message);
+        return $this->read();
+    }
+
+    /**
+     * @method get
+     * @param $path
+     * @param array $params
+     * @return string
+     */
+    public function delete($path)
+    {
+        $message = sprintf("DELETE %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
+        $this->defaultHeaders($message);
+
+        $this->write($message);
+        return $this->read();
+    }
+
+    /**
+     * @param $params
+     * @return string
+     */
+    private function query($params)
+    {
+        $query = '';
+        if(! empty($params)) {
+            $query = '?' . http_build_query($params);
+        }
+        return $query;
+    }
+
+    /**
+     * @param $data
+     * @return string
+     * @throws \Exception
+     */
+    private function serialize($data)
+    {
+        if(! is_array($data)) {
+            throw new \Exception("Form data should be a array.");
+        }
+        return json_encode($data);
     }
 
     /**
@@ -91,6 +143,7 @@ class SocketClient implements SocketClientInterface
     private function defaultHeaders(&$message)
     {
         $message .= sprintf("Host: %s" . self::HTTP_HEADERS_SEPARATOR, $this->host);
+        $message .= "Content-type: application/json" . self::HTTP_HEADERS_SEPARATOR;
         $message .= sprintf("Access-Token: %s" . self::HTTP_HEADERS_SEPARATOR . self::HTTP_HEADERS_SEPARATOR, $this->accessToken);
     }
 
