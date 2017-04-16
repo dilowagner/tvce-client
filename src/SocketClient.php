@@ -11,6 +11,11 @@ class SocketClient implements SocketClientInterface
     /**
      * @var string
      */
+    private $accessToken;
+
+    /**
+     * @var string
+     */
     private $host;
 
     /**
@@ -19,16 +24,16 @@ class SocketClient implements SocketClientInterface
     const HTTP_HEADERS_SEPARATOR = "\r\n";
 
     /**
-     * @method SocketClient constructor.
+     * SocketClient constructor.
+     * @param $accessToken
      * @param $host
-     * @param $protocol
      * @param int $port
-     * @throws \Exception
+     * @throws \HttpSocketException
      */
-    public function __construct($host, $protocol = SOL_TCP, $port = 80)
+    public function __construct($accessToken, $host, $port = 80)
     {
         $ipAddress = gethostbyname($host);
-        $socket = socket_create(AF_INET, SOCK_STREAM, $protocol);
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if($socket === false) {
             throw new \HttpSocketException(sprintf("Socket create error: ", socket_strerror(socket_last_error())));
         }
@@ -38,6 +43,7 @@ class SocketClient implements SocketClientInterface
             throw new \HttpSocketException(sprintf("Socket connect error: ", socket_strerror(socket_last_error($socket))));
         }
 
+        $this->accessToken = $accessToken;
         $this->host   = $host;
         $this->socket = $socket;
     }
@@ -51,10 +57,41 @@ class SocketClient implements SocketClientInterface
     public function get($path, $params = [])
     {
         $message  = sprintf("GET %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
-        $message .= sprintf("Host: %s" . self::HTTP_HEADERS_SEPARATOR . self::HTTP_HEADERS_SEPARATOR, $this->host);
+        $this->defaultHeaders($message);
 
         $this->write($message);
         return $this->read();
+    }
+
+    /**
+     * @method get
+     * @param $path
+     * @param array $params
+     * @return string
+     */
+    public function post($path, $data)
+    {
+        if(! is_array($data)) {
+            throw new \Exception("Form data should be a array.");
+        }
+
+        $data = json_encode($data);
+        $message = sprintf("POST %s HTTP/1.1" . self::HTTP_HEADERS_SEPARATOR, $path);
+        $message .= "Content-type: application/json" . self::HTTP_HEADERS_SEPARATOR;
+        $this->defaultHeaders($message);
+        $message .= $data;
+
+        $this->write($message);
+        return $this->read();
+    }
+
+    /**
+     * @param $message
+     */
+    private function defaultHeaders(&$message)
+    {
+        $message .= sprintf("Host: %s" . self::HTTP_HEADERS_SEPARATOR, $this->host);
+        $message .= sprintf("Access-Token: %s" . self::HTTP_HEADERS_SEPARATOR . self::HTTP_HEADERS_SEPARATOR, $this->accessToken);
     }
 
     /**
