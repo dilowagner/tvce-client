@@ -9,7 +9,7 @@ class SMSService
     /**
      * @var string
      */
-    const ROUTE = '/sms/';
+    const SMS_ROUTE = '/sms/';
 
     /**
      * @var SocketClientInterface
@@ -38,7 +38,7 @@ class SMSService
             'mensagem' => $message,
             'resposta_usuario' => $isUserResponse
         ];
-        $path = new Path([self::ROUTE]);
+        $path = new Path([self::SMS_ROUTE]);
         return $this->client->post($path->build(), $data);
     }
 
@@ -48,7 +48,7 @@ class SMSService
      */
     public function getSMS($id)
     {
-        $path = new Path([self::ROUTE, $id]);
+        $path = new Path([self::SMS_ROUTE, $id]);
         return $this->client->get($path->build());
     }
 
@@ -64,7 +64,7 @@ class SMSService
             'data_fim' => $endDate->format('d/m/Y')
         ];
 
-        $path = new Path([self::ROUTE, 'relatorio']);
+        $path = new Path([self::SMS_ROUTE, 'relatorio']);
         return $this->client->get($path->build(), $params);
     }
 }
