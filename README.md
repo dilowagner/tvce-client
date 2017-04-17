@@ -23,14 +23,14 @@ Master:
 Para instalar a biblioteca basta adicioná-la via [composer](https://getcomposer.org/download/)
 
 ```composer
-composer require tvce/client 1.0.3
+composer require tvce/client 1.0.4
 ```
 
 Ou no composer.json
 
 ```json
 {
-    "tvce/client": "1.0.3"
+    "tvce/client": "1.0.4"
 }
 ```
 
