@@ -30,12 +30,12 @@ class SocketClient implements SocketClientInterface
         $ipAddress = gethostbyname($host);
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if($socket === false) {
-            throw new \HttpSocketException(sprintf("Socket create error: ", socket_strerror(socket_last_error())));
+            throw new SocketClientException(sprintf("Socket create error: ", socket_strerror(socket_last_error())));
         }
 
-        $connect = socket_connect($socket, $ipAddress, $port);
-        if(! $connect) {
-            throw new \HttpSocketException(sprintf("Socket connect error: ", socket_strerror(socket_last_error($socket))));
+        $connect = @socket_connect($socket, $ipAddress, $port);
+        if($connect === false) {
+            throw new SocketClientException(sprintf("Socket connect error: ", socket_strerror(socket_last_error($socket))));
         }
 
         $this->accessToken = $accessToken;
@@ -51,10 +51,7 @@ class SocketClient implements SocketClientInterface
      */
     public function get($path, $params = [])
     {
-        $query = $this->query($params);
-        $message = $this->request(Http::GET, $path, $query);
-        $this->defaultHeaders($message);
-
+        $message = $this->makeMessage(Http::GET, $path, $params);
         $this->write($message);
         return $this->read();
     }
@@ -67,10 +64,7 @@ class SocketClient implements SocketClientInterface
      */
     public function post($path, $data)
     {
-        $message = $this->request(Http::POST, $path);
-        $this->defaultHeaders($message);
-        $message .= $this->serialize($data);
-
+        $message = $this->makeMessage(Http::POST, $path, [], $data);
         $this->write($message);
         return $this->read();
     }
@@ -83,10 +77,7 @@ class SocketClient implements SocketClientInterface
      */
     public function put($path, $data)
     {
-        $message = $this->request(Http::PUT, $path);
-        $this->defaultHeaders($message);
-        $message .= $this->serialize($data);
-
+        $message = $this->makeMessage(Http::PUT, $path, [], $data);
         $this->write($message);
         return $this->read();
     }
@@ -98,11 +89,28 @@ class SocketClient implements SocketClientInterface
      */
     public function delete($path)
     {
-        $message = $this->request(Http::DELETE, $path);
-        $this->defaultHeaders($message);
-
+        $message = $this->makeMessage(Http::DELETE, $path);
         $this->write($message);
         return $this->read();
+    }
+
+    /**
+     * @param $method
+     * @param $path
+     * @param array $params
+     * @param array $data
+     * @return string
+     */
+    public function makeMessage($method, $path, $params = [], $data = [])
+    {
+        $query = $this->query($params);
+        $message = $this->requestAsString($method, $path, $query);
+        $this->defaultHeaders($message);
+        if(! empty($data)) {
+            $message .= $this->serialize($data);
+        }
+
+        return $message;
     }
 
     /**
@@ -111,7 +119,7 @@ class SocketClient implements SocketClientInterface
      * @param string|null $query
      * @return string
      */
-    private function request($verb, $path, $query = null)
+    public function requestAsString($verb, $path, $query = null)
     {
         return sprintf(
             "%s %s%s %s%s",
@@ -127,7 +135,7 @@ class SocketClient implements SocketClientInterface
      * @param $params
      * @return string
      */
-    private function query($params)
+    public function query($params)
     {
         $query = '';
         if(! empty($params)) {
@@ -141,10 +149,10 @@ class SocketClient implements SocketClientInterface
      * @return string
      * @throws \Exception
      */
-    private function serialize($data)
+    public function serialize($data)
     {
         if(! is_array($data)) {
-            throw new \Exception("Form data should be a array.");
+            throw new SocketClientException("Form data should be a array.");
         }
         return json_encode($data);
     }
@@ -165,11 +173,11 @@ class SocketClient implements SocketClientInterface
      * @return int
      * @throws \Exception
      */
-    private function write($message)
+    protected function write($message)
     {
         $ret = socket_write($this->socket, $message);
         if ($ret === false) {
-            throw new \HttpSocketException("Socket write error: " . socket_last_error());
+            throw new SocketClientException("Socket write error: " . socket_last_error());
         }
         return $ret;
     }
@@ -180,11 +188,11 @@ class SocketClient implements SocketClientInterface
      * @return string
      * @throws \HttpSocketException
      */
-    private function read($length = 1024)
+    protected function read($length = 1024)
     {
         $data = socket_read($this->socket, $length);
         if ($data === false) {
-            throw new \HttpSocketException("Socket read error: " . socket_last_error());
+            throw new SocketClientException("Socket read error: " . socket_last_error());
         }
         return $this->stringfy($data);
     }
@@ -204,6 +212,14 @@ class SocketClient implements SocketClientInterface
             }
         }
         return $data;
+    }
+
+    /**
+     * @return resource
+     */
+    public function getSocket()
+    {
+        return $this->socket;
     }
 
     /**

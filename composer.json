@@ -24,5 +24,8 @@
     "psr-4": {
       "Tvce\\": ["src", "test"]
     }
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit"
   }
 }
