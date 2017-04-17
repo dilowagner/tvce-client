@@ -2,7 +2,7 @@
 
 Master:
 [![Build Status](https://travis-ci.org/DiloWagner/tvce-client.svg?branch=master)](http://travis-ci.org/#!/DiloWagner/tvce-client)
-[![Packagist](https://img.shields.io/packagist/v/tvce/client.svg)]()
+[![Packagist](https://img.shields.io/packagist/v/tvce/client.svg)](https://github.com/DiloWagner/tvce-client)
 
 > ### Funcionalidades
 
@@ -23,14 +23,14 @@ Master:
 Para instalar a biblioteca basta adicioná-la via [composer](https://getcomposer.org/download/)
 
 ```composer
-composer require tvce/client 1.0.4
+composer require tvce/client 1.0.5
 ```
 
 Ou no composer.json
 
 ```json
 {
-    "tvce/client": "1.0.4"
+    "tvce/client": "1.0.5"
 }
 ```
 
