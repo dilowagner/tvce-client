@@ -26,6 +26,7 @@ class AudioService
     }
 
     /**
+     * Envia uma mensagem de audio
      * @param $destinyNumber
      * @param $urlAudio
      * @param bool $isUserResponse
@@ -43,6 +44,7 @@ class AudioService
     }
 
     /**
+     * Busca uma mensagem de audio pelo seu ID
      * @param $id
      * @return string
      */
@@ -53,6 +55,7 @@ class AudioService
     }
 
     /**
+     * Relatório de mensagens de Audio
      * @param \DateTime $beginDate
      * @param \DateTime $endDate
      * @return string

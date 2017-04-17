@@ -31,6 +31,7 @@ class CentralService
     }
 
     /**
+     * Cria um novo ramal
      * @return string
      */
     public function create($ramal = null, $login = null, $password = null, $bina = null, $isExternal = false, $isCelular = false, $isSaveAudio = false, $isAccessRecording = false)
@@ -51,6 +52,7 @@ class CentralService
     }
 
     /**
+     * Remove um Ramal
      * @param string $name
      * @return string
      */
@@ -61,6 +63,7 @@ class CentralService
     }
 
     /**
+     * Busca uma Ramal pelo seu ID
      * @return string
      */
     public function get($id)
@@ -70,6 +73,7 @@ class CentralService
     }
 
     /**
+     * Atualiza um ramal
      * @return string
      */
     public function update($id, $ramal = null, $login = null, $password = null, $bina = null, $isExternal = false, $isCelular = false, $isSaveAudio = false, $isAccessRecording = false)
@@ -90,6 +94,7 @@ class CentralService
     }
 
     /**
+     * Relatório de mensagens de Ramal
      * @return string
      */
     public function report()
@@ -99,6 +104,7 @@ class CentralService
     }
 
     /**
+     * Requisita a URL do webphone de um ramal
      * @param $type
      * @param $idRamal
      * @param $ramal

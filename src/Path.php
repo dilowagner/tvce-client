@@ -18,6 +18,7 @@ class Path
     }
 
     /**
+     * Monta a URL de acordo com os parâmetros
      * @return string
      * Build path URL
      */

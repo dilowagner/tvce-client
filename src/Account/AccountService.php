@@ -36,6 +36,7 @@ class AccountService
     }
 
     /**
+     * Consulta saldo atual
      * @return string
      */
     public function balance()
@@ -45,6 +46,7 @@ class AccountService
     }
 
     /**
+     * Leitura dos dados da minha conta
      * @return string
      */
     public function account()
@@ -54,6 +56,7 @@ class AccountService
     }
 
     /**
+     * Atualiza os dados da minha conta
      * @param string $name
      * @param string $login
      * @param string $password
@@ -75,6 +78,7 @@ class AccountService
     }
 
     /**
+     * Gera um relatório com as recargas efetuadas
      * @return string
      */
     public function recharges()
@@ -84,6 +88,7 @@ class AccountService
     }
 
     /**
+     * Gera uma URL para recarga de créditos
      * @return string
      */
     public function urlRecharge($returnUrl)
@@ -95,6 +100,7 @@ class AccountService
     }
 
     /**
+     * Retorna a lista de webhooks configurados para esta conta
      * @return string
      */
     public function webhooks()
@@ -104,6 +110,7 @@ class AccountService
     }
 
     /**
+     * Apaga um webhook
      * @param string $name
      * @return string
      */
@@ -114,6 +121,7 @@ class AccountService
     }
 
     /**
+     * Cadastra ou atualiza um webhook
      * @param $name
      * @param $url
      * @return string

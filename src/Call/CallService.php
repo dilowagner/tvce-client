@@ -26,6 +26,7 @@ class CallService
     }
 
     /**
+     * Realiza uma chamada telefônica entre dois números: A e B
      * @param string $originNumber
      * @param string $destinyNumber
      * @param bool $isSaveAudio
@@ -49,6 +50,7 @@ class CallService
     }
 
     /**
+     * Encerra uma chamada ativa
      * @param $id
      * @return string
      */
@@ -58,8 +60,8 @@ class CallService
         return $this->client->delete($path->build());
     }
 
-
     /**
+     * Busca uma chamada pelo seu ID
      * @param $id
      * @return string
      */
@@ -68,7 +70,9 @@ class CallService
         $path = new Path([self::CALL_ROUTE, $id]);
         return $this->client->get($path->build());
     }
+
     /**
+     * Download do áudio de uma chamada gravada
      * @param $id
      * @return string
      */
@@ -79,6 +83,7 @@ class CallService
     }
 
     /**
+     * Relatório de mensagens de Chamadas
      * @param \DateTime $beginDate
      * @param \DateTime $endDate
      * @return string
@@ -95,6 +100,7 @@ class CallService
     }
 
     /**
+     * (Beta) Escuta uma chamada ativa
      * @param $id
      * @return string
      */
@@ -109,6 +115,7 @@ class CallService
     }
 
     /**
+     * (Beta) Faz uma transferência da chamada atual
      * @param int $id
      * @param string $number
      * @param string $leg

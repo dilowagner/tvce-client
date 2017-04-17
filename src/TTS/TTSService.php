@@ -26,6 +26,7 @@ class TTSService
     }
 
     /**
+     * Envia uma mensagem com leitura de texto TTS
      * @param string $destinyNumber
      * @param string $message
      * @param bool $isUserResponse
@@ -45,6 +46,7 @@ class TTSService
     }
 
     /**
+     * Busca uma mensagem TTS pelo seu ID
      * @param $id
      * @return string
      */
@@ -55,6 +57,7 @@ class TTSService
     }
 
     /**
+     * Relatório de mensagens de TTS
      * @param \DateTime $beginDate
      * @param \DateTime $endDate
      * @return string

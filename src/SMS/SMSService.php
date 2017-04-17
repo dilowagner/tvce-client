@@ -26,6 +26,7 @@ class SMSService
     }
 
     /**
+     * Envia uma mensagem SMS
      * @param string $destinyNumber
      * @param string $message
      * @param bool $isUserResponse
@@ -43,6 +44,7 @@ class SMSService
     }
 
     /**
+     * Busca uma mensagem SMS pelo seu ID
      * @param $id
      * @return string
      */
@@ -53,6 +55,7 @@ class SMSService
     }
 
     /**
+     * Relatório de mensagens SMS
      * @param \DateTime $beginDate
      * @param \DateTime $endDate
      * @return string

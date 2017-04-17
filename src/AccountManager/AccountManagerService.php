@@ -26,6 +26,7 @@ class AccountService
     }
 
     /**
+     * Cria uma nova conta na plataforma
      * @param string $name
      * @param string $login
      * @param string $password
@@ -47,6 +48,7 @@ class AccountService
     }
 
     /**
+     * Leitura dos dados de uma conta criada
      * @return string
      */
     public function get($id)
@@ -56,6 +58,7 @@ class AccountService
     }
 
     /**
+     * Remove uma conta
      * @param $id
      * @return string
      */
@@ -66,6 +69,7 @@ class AccountService
     }
 
     /**
+     * Atualiza os dados de uma conta criada
      * @return string
      */
     public function update($id, $name, $login, $password, $cpfCnpj = null, $phone = null)
@@ -83,6 +87,7 @@ class AccountService
     }
 
     /**
+     * Lista contas criadas por mim
      * @return string
      */
     public function report()

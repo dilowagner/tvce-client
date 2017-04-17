@@ -20,6 +20,7 @@ class SocketClient implements SocketClientInterface
 
     /**
      * SocketClient constructor.
+     * Cria/Inicializa a conexão com o socket
      * @param $accessToken
      * @param $host
      * @param int $port
@@ -44,6 +45,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Requisição GET
      * @method GET
      * @param $path
      * @param array $params
@@ -57,6 +59,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Requisição POST
      * @method POST
      * @param $path
      * @param array $params
@@ -70,6 +73,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Requisição PUT
      * @method PUT
      * @param $path
      * @param array $params
@@ -83,6 +87,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Requisição DELETE
      * @method DELETE
      * @param $path
      * @return string
@@ -95,6 +100,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Cria a mensagem do cabeçalho HTTP
      * @param $method
      * @param $path
      * @param array $params
@@ -114,6 +120,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Monta o path da requisição com o Verbo HTTP, a rota e query string
      * @param string $verb
      * @param string $path
      * @param string|null $query
@@ -132,6 +139,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Monta a query string caso haja parâmetros de filtro
      * @param $params
      * @return string
      */
@@ -145,6 +153,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Realiza o parser da resposta para retornar no formato JSON
      * @param $data
      * @return string
      * @throws \Exception
@@ -158,6 +167,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Monta os parâmetros padrões do cabeçalho: Host, Content-Type e Access-Token
      * @param $message
      */
     private function defaultHeaders(&$message)
@@ -168,6 +178,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Escreve a mensagem no socket
      * @method write
      * @param $message
      * @return int
@@ -183,6 +194,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Lê a mensagem de retorno do socket
      * @method read
      * @param int $length
      * @return string
@@ -198,6 +210,18 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Trata o retorno para recuperar apenas o JSON com os dados do cabeçalho de resposta
+     * EX:
+     *   HTTP/1.1 404 Not Found
+     *   Date: Mon, 17 Apr 2017 14:37:56 GMT
+     *   Server: Apache
+     *   Access-Control-Allow-Origin: *
+     *   Content-Length: 96
+     *   Content-Type: application/json
+     *
+     *   {"status":404,"sucesso":false,"motivo":60,"mensagem":"chamada n\u00e3o encontrada","dados":null}
+     *
+     * Recupera apenas os dados: {"status":404,"sucesso":false,"motivo":60,"mensagem":"chamada n\u00e3o encontrada","dados":null}
      * @method stringfy
      * @param $data
      * @return string
@@ -215,6 +239,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Retorna o socket
      * @return resource
      */
     public function getSocket()
@@ -223,6 +248,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Fecha a conexão com o socket
      * @method close
      */
     public function close()
@@ -231,6 +257,7 @@ class SocketClient implements SocketClientInterface
     }
 
     /**
+     * Fecha a conexão com o socket caso o recurso esteja aberto ainda, ou quando o método close() não é chamado.
      * @method SocketClient destruct
      */
     public function __destruct()
