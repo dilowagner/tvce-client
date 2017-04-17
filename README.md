@@ -2,6 +2,7 @@
 
 Master:
 [![Build Status](https://travis-ci.org/DiloWagner/tvce-client.svg?branch=master)](http://travis-ci.org/#!/DiloWagner/tvce-client)
+[![Packagist](https://img.shields.io/packagist/v/tvce/client.svg)]()
 
 > ### Funcionalidades
 
@@ -14,7 +15,7 @@ Master:
 
 > ### Requisitos
 
-- PHP 5.6+
+- PHP 5.5+
 - Autoloader compatível com a PSR-4
 
 > ### Instalação
@@ -22,14 +23,14 @@ Master:
 Para instalar a biblioteca basta adicioná-la via [composer](https://getcomposer.org/download/)
 
 ```composer
-composer require tvce/client 1.0.0
+composer require tvce/client 1.0.2
 ```
 
 Ou no composer.json
 
 ```json
 {
-    "tvce/client": "1.0.0"
+    "tvce/client": "1.0.2"
 }
 ```
 
