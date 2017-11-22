@@ -237,7 +237,7 @@ try {
 }
 ```
 
-Mais informações sobre os métodos disponíveis podem ser encontrados na documentação da [API](https://api.totalvoice.com.br/doc/#/)
+Mais informações sobre os métodos disponíveis podem ser encontrados na documentação da [API](https://api2.totalvoice.com.br/doc/#/)
 
 > ### Licença
 
