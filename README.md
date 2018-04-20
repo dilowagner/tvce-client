@@ -1,4 +1,4 @@
-# tvce-client - Projeto para consumo da API Total Voice
+# Projeto para consumo da API TotalVoice utilizando Sockets
 
 Master:
 [![Build Status](https://travis-ci.org/DiloWagner/tvce-client.svg?branch=master)](http://travis-ci.org/#!/DiloWagner/tvce-client)
